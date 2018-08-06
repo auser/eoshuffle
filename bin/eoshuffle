@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const path = require ('path');
+
+const srcDir = path.join (__dirname, '..', 'src');
+const cmdDir = path.join (srcDir, 'cmds');
+
+require ('yargs')
+  // global options
+  .option ('directory', {
+    type: 'string',
+    desc: 'project directory',
+    alias: 'd',
+    default: process.cwd (),
+  })
+  .commandDir (cmdDir)
+  .demandCommand ()
+  .help ()
+  .wrap (72).argv;
