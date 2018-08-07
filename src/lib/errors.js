@@ -1,4 +1,11 @@
-module.exports = {
-  INVALID_SETUP: new Error ({msg: 'Invalid setup', code: 1}),
-  INVALID_CONFIG_SETUP: new Error ({msg: 'Invalid config', code: 2}),
-};
+const errors = [
+  {name: 'INVALID_SETUP', msg: 'Invalid setup'},
+  {name: 'INVALID_CONFIG_SETUP', msg: 'Invalid configuration'},
+];
+
+module.exports = errors.reduce ((acc, obj, i) => {
+  return {
+    ...acc,
+    [obj.name]: `[${i}]: ${obj.msg}`,
+  };
+}, {});

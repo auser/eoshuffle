@@ -7,10 +7,10 @@ const shelljs = require ('shelljs');
 const compile = async argv => {
   return new Promise (async (resolve, reject) => {
     const eosiocpp = argv.eosiocpp || shelljs.which ('eosiocpp');
-    const {eos, contracts} = await Eos (argv);
+    const {logger, contracts} = await Eos (argv);
 
     if (!eosiocpp) {
-      shell.echo (
+      logger.info (
         `Sorry, this script requires eosiocpp. Either pass it as an option using the flag or add it to your $PATH and try again.`
       );
       shell.exit (1);
@@ -21,13 +21,17 @@ const compile = async argv => {
       return new Promise ((resolve, reject) => {
         const pathName = path.basename (dir);
         shelljs.pushd ('-q', dir);
-        shelljs.exec (cmd (pathName), (code, stdout, stderr) => {
-          shelljs.popd ('-q');
-          if (code !== 0) {
-            return reject (stderr);
+        shelljs.exec (
+          cmd (pathName),
+          {silent: true},
+          (code, stdout, stderr) => {
+            shelljs.popd ('-q');
+            if (code !== 0) {
+              return reject (stderr);
+            }
+            resolve (path.join (dir, `${pathName}`));
           }
-          resolve (path.join (dir, `${pathName}`));
-        });
+        );
       });
     };
 
@@ -39,7 +43,7 @@ const compile = async argv => {
       );
     });
     Promise.all (promises).then (out => {
-      console.log ('success', out);
+      logger.info (`All done!`);
     });
   });
 };
