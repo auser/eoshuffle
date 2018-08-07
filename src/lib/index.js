@@ -8,6 +8,8 @@ module.exports = async (options = {}) => {
 
   try {
     const contractDir = path.join (directory, 'contracts');
+    const buildDir = path.join (directory, 'build');
+
     const byExt = async (ext, baseDir, filter) =>
       fh.findByExtension (baseDir || directory, ext, filter);
     const dirs = async (baseDir, filter) =>
@@ -19,11 +21,15 @@ module.exports = async (options = {}) => {
     return {
       ...eosInst,
       logger: logger,
+      dirs: {
+        buildDir,
+        contractDir,
+      },
       contracts: {
         dirs: await dirs (contractDir),
-        abi: await byExt ('abi', contractDir),
-        wasm: await byExt ('wasm', contractDir),
-        wast: await byExt ('wast', contractDir),
+        // abi: await byExt ('abi', contractDir),
+        // wasm: await byExt ('wasm', contractDir),
+        // wast: await byExt ('wast', contractDir),
       },
     };
   } catch (e) {

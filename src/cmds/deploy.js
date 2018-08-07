@@ -1,31 +1,11 @@
-const fs = require ('fs');
+const path = require ('path');
 const Eos = require ('../lib');
+const deployer = require ('../deployer');
 
 const deploy = async function (argv) {
-  const {eos, envConfig, contracts, logger} = await Eos (argv);
-  const findContract = (name, ext) => {
-    const found = contracts[ext].filter (i => i.indexOf (name) >= 0);
-    return found.length > 0 ? found[0] : null;
-  };
-
-  const wasmFile = findContract (`${argv.name}.wasm`, 'wasm');
-  const abiFile = findContract (`${argv.name}.abi`, 'abi');
-
-  if (!wasmFile || !abiFile) {
-    throw new Error ('No compiled contracts');
-  }
-  const wasm = fs.readFileSync (wasmFile);
-  const abi = fs.readFileSync (abiFile);
-
-  try {
-    logger.info (`Deploying contract ${argv.name}`);
-    await eos.setcode (envConfig.tokenAccount, 0, 0, wasm, {
-      authorization: `${envConfig.tokenAccount}@owner`,
-    });
-  } catch (e) {}
-  const out = await eos.setabi (envConfig.tokenAccount, JSON.parse (abi));
-
-  logger.info (`All done`);
+  deployer (argv).then (async deployer => {
+    await deployer.deploy ('coin');
+  });
 };
 
 module.exports = {

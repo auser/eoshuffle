@@ -9,11 +9,12 @@
   "author": "Ari Lerner <me@ari.io> (http://willcodeforfoo.com)",
   "license": "ISC",
   "dependencies": {
-    "hoek": "~> 4.2.1",
     "binaryen": "^37.0.0",
     "bluebird": "^3.5.1",
     "eosjs": "^16.0.0",
+    "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
+    "hoek": "~> 4.2.1",
     "nodegit": "^0.22.2",
     "shelljs": "^0.8.2",
     "validate": "^4.4.1",
