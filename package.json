@@ -8,6 +8,9 @@
   },
   "author": "Ari Lerner <me@ari.io> (http://willcodeforfoo.com)",
   "license": "ISC",
+  "peerDependencies": {
+    "hoek": "~> 4.2.1"
+  },
   "dependencies": {
     "binaryen": "^37.0.0",
     "bluebird": "^3.5.1",
