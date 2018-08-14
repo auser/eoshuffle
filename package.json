@@ -4,21 +4,33 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "./node_modules/.bin/cmake-js rebuild --prefer-clang -s=c++14 --arch darwin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "gypfile": true,
   "author": "Ari Lerner <me@ari.io> (http://willcodeforfoo.com)",
   "license": "ISC",
   "dependencies": {
     "binaryen": "^37.0.0",
+    "bindings": "^1.3.0",
     "bluebird": "^3.5.1",
+    "boost-lib": "^0.11.3",
     "eosjs": "^16.0.0",
     "fs-extra": "^7.0.0",
+    "github-download": "^0.5.0",
     "glob": "^7.1.2",
     "hoek": "~> 4.2.1",
+    "nan": "^2.10.0",
+    "node-gyp": "^3.8.0",
     "nodegit": "^0.22.2",
+    "request": "^2.87.0",
     "shelljs": "^0.8.2",
+    "tmp": "0.0.33",
     "validate": "^4.4.1",
     "winston": "^3.0.0",
     "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "cmake-js": "^3.7.3"
   }
 }

@@ -1,0 +1,3 @@
+[submodule "src/third_party/eosio"]
+	path = src/third_party/eosio
+	url = https://github.com/EOSIO/eos.git
