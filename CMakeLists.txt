@@ -14,7 +14,9 @@ ADD_DEFINITIONS(-std=c++14)
 
 ## TODO: Shrink the installation below to just build the required repo
 
-set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/eosio")
+set(THIRD_PARTY "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party")
+set(ROOT_DIR "${THIRD_PARTY}/eosio")
+set(LIBCLANG_DIR "${THIRD_PARTY}/libclangmm")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
@@ -45,6 +47,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/eosio/libraries/fc/CMakeModules")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/eosio/CMakeModules")
+# list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/libclangmm")
 
 # include( GNUInstallDirs )
 # include( VersionMacros )
@@ -54,7 +57,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/eosio
 
 # # include(wasm)
 find_package(OpenSSL REQUIRED)
-find_package(LibClang REQUIRED)
+# add_subdirectory("${LIBCLANG_DIR}")
+# find_package(LibClang REQUIRED)
+# add_subdirectory("${LIBCLANG_DIR}")
+# find_package(libclang REQUIRED)
+
 # # find_package(Boost COMPONENTS filesystem REQUIRED)
 
 # # add_compile_options(-std=c++14)
