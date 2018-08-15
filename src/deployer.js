@@ -4,6 +4,10 @@ const Promise = require ('bluebird');
 const shelljs = require ('shelljs');
 const lib = require ('./lib');
 
+const buildPath = path.join (__dirname, '..', 'build');
+const thirdPartyPath = path.join (buildPath, 'src', 'third_party');
+const eosiocppPath = path.join (thirdPartyPath, 'eosio', 'tools', 'eosiocpp');
+
 module.exports = async function (opts = {}) {
   // const lib
   const {eos, envConfig, logger, dirs} = await lib (opts);
@@ -60,7 +64,7 @@ module.exports = async function (opts = {}) {
     const outputFile = path.join (outputDir, `${pathName}.abi`);
 
     fs.mkdirpSync (outputDir);
-    const abiCommand = `eosiocpp -g ${outputFile} ${inputFile}`;
+    const abiCommand = `${eosiocppPath} -g ${outputFile} ${inputFile}`;
     return _compileContract (abiCommand, dir);
   };
   const compileWast = async dir => {
@@ -71,7 +75,7 @@ module.exports = async function (opts = {}) {
     const outputFile = path.join (outputDir, `${pathName}.wast`);
     fs.mkdirpSync (outputDir);
 
-    const wastCmd = `eosiocpp -o ${outputFile} ${inputFile}`;
+    const wastCmd = `${eosiocppPath} -o ${outputFile} ${inputFile}`;
     return _compileContract (wastCmd, dir);
   };
 
