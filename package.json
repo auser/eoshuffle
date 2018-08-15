@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deps": "git submodule update --init --recursive",
-    "install": "./node_modules/.bin/cmake-js rebuild --prefer-clang -s=c++14 --arch darwin",
+    "install": "./node_modules/.bin/cmake-js rebuild --prefer-clang -s=c++11 --arch darwin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "gypfile": true,
