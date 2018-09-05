@@ -50,8 +50,7 @@ const exec = async (cmd, destDir, options = {}) => {
 const updateSubmodules = async destDir => {
   logger.info (`Updating submodules 🚀`);
   const cmd = `git submodule update --init --recursive`;
-  const output = await exec (cmd, destDir);
-  console.log ('repo', output);
+  await exec (cmd, destDir);
 };
 
 const buildEos = async (destDir, argv) => {
@@ -59,8 +58,13 @@ const buildEos = async (destDir, argv) => {
     `Building eos... This could take a while, so go grab a cup of coffee ☕️`
   );
   const cmd = `./eosio_build.sh`;
-  const output = await exec (cmd, destDir);
-  console.log ('repo', output);
+  await exec (cmd, destDir);
+};
+
+const installEos = async destDir => {
+  logger.info (`Installing EOS`);
+  const cmd = `make install`;
+  await exec (cmd, destDir);
 };
 
 const handleSetup = async argv => {
@@ -70,6 +74,9 @@ const handleSetup = async argv => {
   await cloneEosIfNecessary (destDir);
   await updateSubmodules (destDir);
   await buildEos (destDir, argv);
+  if (argv.install) {
+    await installEos (destDir);
+  }
 };
 
 module.exports = {
