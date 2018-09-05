@@ -1,25 +1,36 @@
 const fs = require('fs');
 // const lib = require ('./lib');
 const request = require('request');
+const ghdownload = require('github-download');
+const tmp = require('tmp');
+const cwd = require('process').cwd();
 
 module.exports = async function (opts = {}) {
     // const { logger } = await lib (opts);
 
-    function isEmptyDir (dir) { // note: move to fileHelper lib
+    // helper functions (note: move to fileHelper lib)
+    const isEmptyDir = (dir) => { 
         const files = fs.readdirSync(dir);
         const filesInDirectory = files.length;
         console.log('files in directory', filesInDirectory)
         return filesInDirectory < 0;
     }
 
-    const templateExists = template => {
-        // const url = `https://github.com/auser/eoshuffle-init-${template}`;
-        const url = `https://github.com/auser/eos-dapp-starter`;
-        console.log('checking for template at', url);
+    // main functions
+    const checkForEmptyCreateDirectory = dir => {
+        console.log(`making sure destination directory is empty...`);
+        if (!isEmptyDir(dir)) {
+            throw 'Please run `eoshuffle init` from an empty directory.';
+        }
+        console.log(`directory ${dir} is empty`);
+    }
+
+    const templateExists = templateUrl => {
+        console.log('checking that template exists...');
 
         const options = {
             method: 'HEAD',
-            uri: url,
+            uri: templateUrl,
         };
 
         return new Promise((resolve, reject) => {
@@ -27,49 +38,58 @@ module.exports = async function (opts = {}) {
                 if (e) {
                     return reject(e);
                 } else if (response.statusCode == 404) {
-                    return  reject(`Eoshuffle template does not exist at ${url}`);
+                    return reject(`Eoshuffle template does not exist at ${templateUrl}`);
                 } else if (response.statusCode == !200) {
                     return reject(`Error connecting to github.  Please check your internet connection.`);
                 }
-                console.log(`[x] template '${template}' does exist.`);
+                console.log(`template does exist.`);
                 resolve(true);
             })
         })
 
     }
 
-    const downloadTemplate = async () => {
+    const setupTempDir = () => {
+        const tmpDirObject = tmp.dirSync({
+            dir: cwd,
+            unsafeCleanup: true
+        })
+        console.log('set up temporary directory:', tmpDirObject.name);
+        return tmpDirObject;
+    }
+
+    const downloadTemplate = (url, tempDirectory) => {
         console.log('downloading template...');
+        return new Promise((resolve, reject) => {
+            ghdownload(url, tempDirectory)
+                .on('error', err => {
+                    return reject(err);
+                })
+                .on('end', () => {
+                    resolve();
+                })
+        })
     }
 
-    const unpackTemplate = async () => {
-        console.log('unpacking template...');
-    }
-
-    const configureTemplate = async () => {
-        console.log('configureing template...');
-    }
-
-    const checkForEmptyCreateDirectory = async dir => {
-        // check the create directory to make sure the folder is empty
-        if (!isEmptyDir(dir)) {
-            // throw an error if folder is not empty
-            throw 'Please run `eoshuffle init` from an empty directory.';
-        }
-        console.log(`[x] directory ${dir} is empty`);
+    const copyTempDirToDestination = (tempDir, destination) => {
+        fs.copy(tempDir, destination);
+        console.log(`copied ${tempDir} to ${destination}`)
     }
 
     this.create = async (template, destination) => {
         console.log('creator.create received template:', template);
         console.log('creator.create received dir:', destination);
 
+        // const url = `https://github.com/auser/eoshuffle-init-${template}`;
+        const templateUrl = `https://github.com/auser/eos-dapp-starter`; // hard coded for test
+
         try {
-            // await checkForEmptyCreateDirectory(destination)
-            await templateExists(template);
-            // copy the requested template to the createDirectory
-            await downloadTemplate();
-            await unpackTemplate();
-            await configureTemplate();
+            checkForEmptyCreateDirectory(destination)
+            await templateExists(templateUrl);
+            const tempDirObject = setupTempDir();
+            await downloadTemplate(templateUrl, tempDirObject.name);
+            copyTempDirToDestination(tempDirObject.name, destination);
+            tempDirObject.removeCallback();
         } catch (e) {
             console.log ('Error occured while creating project:', e);
         }
