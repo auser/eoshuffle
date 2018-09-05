@@ -70,9 +70,9 @@ module.exports = async function (opts = {}) {
         })
     }
 
-    const copyTempDirToDestination = (tempDir, destination) => {
+    const copyTempDirToDestination = async (tempDir, destination) => {
         console.log('copying template to destination folder...');
-        fs.copy(tempDir, destination);
+        await fs.copy(tempDir, destination);
         console.log(`copied ${tempDir} to ${destination}`)
     }
 
@@ -87,7 +87,7 @@ module.exports = async function (opts = {}) {
             await templateExists(templateUrl);
             const tempDirObject = setupTempDir();
             await downloadTemplate(templateUrl, tempDirObject.name);
-            copyTempDirToDestination(tempDirObject.name, destination);
+            await copyTempDirToDestination(tempDirObject.name, destination);
             tempDirObject.removeCallback();
         } catch (e) {
             console.log ('Error occured while creating project:', e);
