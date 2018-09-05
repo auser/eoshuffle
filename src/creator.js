@@ -77,7 +77,7 @@ module.exports = async function (opts = {}) {
 
     this.create = async (template, destination) => {
 
-        const templateUrl = `https://github.com/billbitt/eoshuffle-init-${template}`;
+        const templateUrl = `https://github.com/eoshuffle/eoshuffle-init-${template}`;
 
         try {
             checkForEmptyCreateDirectory(destination)
