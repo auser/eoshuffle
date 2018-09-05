@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 // const lib = require ('./lib');
 const request = require('request');
 const ghdownload = require('github-download');
