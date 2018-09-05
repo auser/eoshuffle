@@ -23,7 +23,13 @@ module.exports = function (dir) {
     }
   }
 
-  const cfg = require (eoshuffleFile);
+  let cfg = {
+    development: {},
+    production: {},
+  };
+  try {
+    cfg = require (eoshuffleFile);
+  } catch (e) {}
   const env = process.env.NODE_ENV || 'development';
   const envConfig = cfg[env];
 

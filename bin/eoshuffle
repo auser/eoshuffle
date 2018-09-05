@@ -18,6 +18,10 @@ require ('yargs')
     type: 'boolean',
     value: true,
   })
+  .option ('eos-install-directory', {
+    desc: 'directory of eos install',
+    default: path.join (process.env['HOME'], '.eosio'),
+  })
   .fail ((msg, err, yargs) => {
     if (err) {
       console.error (err.message);
