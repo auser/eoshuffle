@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "unbox": "echo \"running unshuffle\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ari Lerner <me@ari.io> (http://willcodeforfoo.com)",
   "license": "ISC",
