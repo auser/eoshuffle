@@ -29,9 +29,9 @@ _(tbd: make eoshuffle installable globally so user can use `eoshuffle init [temp
  - `template name` is optional.  
    - If no `template name` is passed, `eoshuffle` will use the `default` template.
    - If a `template name` is provided, `eoshuffle` will retrieve the associated template.
-   - available `templates` include:
-     - `default` - an empty project
-     - `coin` - a project with a basic coin contract
+     - available `templates` include:
+       - `default` - an empty project
+       - `coin` - a project with a basic coin contract
  
  - `path/to/destination/folder` is optional.  
    - If a `path` is not provided, `eoshuffle` will place your new project in the current directory.
