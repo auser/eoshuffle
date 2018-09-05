@@ -11,9 +11,7 @@ module.exports = async function (opts = {}) {
     // helper functions (note: move to fileHelper lib)
     const isEmptyDir = (dir) => { 
         const files = fs.readdirSync(dir);
-        const filesInDirectory = files.length;
-        console.log('files in directory', filesInDirectory)
-        return filesInDirectory < 0;
+        return files.length === 0;
     }
 
     // main functions
@@ -50,6 +48,7 @@ module.exports = async function (opts = {}) {
     }
 
     const setupTempDir = () => {
+        console.log('setting up temporary directory...');
         const tmpDirObject = tmp.dirSync({
             dir: cwd,
             unsafeCleanup: true
@@ -72,16 +71,16 @@ module.exports = async function (opts = {}) {
     }
 
     const copyTempDirToDestination = (tempDir, destination) => {
+        console.log('copying template to destination folder...');
         fs.copy(tempDir, destination);
         console.log(`copied ${tempDir} to ${destination}`)
     }
 
     this.create = async (template, destination) => {
-        console.log('creator.create received template:', template);
-        console.log('creator.create received dir:', destination);
+        // console.log('creator.create received template:', template);
+        // console.log('creator.create received dir:', destination);
 
-        // const url = `https://github.com/auser/eoshuffle-init-${template}`;
-        const templateUrl = `https://github.com/auser/eos-dapp-starter`; // hard coded for test
+        const templateUrl = `https://github.com/billbitt/eoshuffle-init-${template}`;
 
         try {
             checkForEmptyCreateDirectory(destination)
