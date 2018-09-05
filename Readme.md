@@ -22,9 +22,9 @@ Ari Lerner
 To create a starter project from an `eoshuffle` template...
 
 ```
-$ eoshuffle init [template name] [path/to/destination/folder]
+$ ./eoshuffle/bin/eoshuffle init [template name] [path/to/destination/folder]
 ```
-_ or `$ ./eoshuffle/bin/eoshuffle init [template] [path]` from the root of this repo
+_(tbd: make eoshuffle installable globally so user can use `eoshuffle init [template] [path]` from any location)_
 
  - `template name` is optional.  
    - If no `template name` is passed, `eoshuffle` will use the `default` template.
@@ -39,8 +39,8 @@ _ or `$ ./eoshuffle/bin/eoshuffle init [template] [path]` from the root of this 
 
 ### Compile
 
-(coming soon)
+_(coming soon)_
 
-### deploy
+### Deploy
 
-(coming soon)
+_(coming soon)_
