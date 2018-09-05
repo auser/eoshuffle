@@ -11,6 +11,8 @@
   "dependencies": {
     "binaryen": "^37.0.0",
     "bluebird": "^3.5.1",
+    "boost-lib": "^0.11.3",
+    "cmake-js": "^3.7.3",
     "eosjs": "^16.0.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
@@ -20,5 +22,9 @@
     "validate": "^4.4.1",
     "winston": "^3.0.0",
     "yargs": "^12.0.1"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "lodash": "~> 4.17.5"
   }
 }

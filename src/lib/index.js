@@ -1,7 +1,8 @@
 const path = require ('path');
 const instantiateEos = require ('./eosHelper');
 const fh = require ('./fileHelper');
-const {createNewLogger} = require ('./logger');
+// const {createNewLogger} = require ('./logger');
+const logger = require ('./logger');
 
 module.exports = async (options = {}) => {
   const directory = options.directory;
@@ -16,7 +17,6 @@ module.exports = async (options = {}) => {
       fh.findDirs (baseDir || directory, filter);
 
     const eosInst = instantiateEos (directory);
-    const logger = createNewLogger ();
 
     return {
       ...eosInst,

@@ -14,3 +14,5 @@ module.exports.createNewLogger = (options = {}) => {
   });
   return createLogger (opts);
 };
+
+module.exports = module.exports.createNewLogger ({});
