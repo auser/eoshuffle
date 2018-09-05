@@ -15,3 +15,36 @@ Everything else
 License: MIT
 
 Ari Lerner
+
+## CLI Documentation
+
+### Create
+To create a starter project from an `eoshuffle` template...
+
+```
+$ ./eoshuffle/bin/eoshuffle init [template name] [path/to/destination/folder]
+```
+_(tbd: make eoshuffle installable globally so user can use `eoshuffle init [template] [path]` from any location)_
+
+ - `template name` is optional.  
+   - If no `template name` is passed, `eoshuffle` will use the `default` template.
+   - If a `template name` is provided, `eoshuffle` will retrieve the associated template.
+     - available `templates` include:
+       - `default` - an empty project
+       - `coin` - a project with a basic coin contract
+ 
+ - `path/to/destination/folder` is optional.  
+   - If a `path` is not provided, `eoshuffle` will place your new project in the current directory.
+   - If a `path` is provided, `eoshuffle` will place the template in the provided destination.
+
+### Compile
+
+_(coming soon)_
+
+### Deploy
+
+_(coming soon)_
+
+## Inspiration
+
+This project is heavily influenced by the [truffle](https://github.com/trufflesuite/truffle) project and aims to bring many of the same amazing tools to the [eos](https://eos.io/) development eocosystem
