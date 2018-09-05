@@ -1,12 +1,11 @@
 const fs = require('fs-extra');
-// const lib = require ('./lib');
+const logger = require('./lib/logger').createNewLogger();
 const request = require('request');
 const ghdownload = require('github-download');
 const tmp = require('tmp');
 const cwd = require('process').cwd();
 
 module.exports = async function (opts = {}) {
-    // const { logger } = await lib (opts);
 
     // helper functions (note: move to fileHelper lib)
     const isEmptyDir = (dir) => { 
@@ -16,15 +15,15 @@ module.exports = async function (opts = {}) {
 
     // main functions
     const checkForEmptyCreateDirectory = dir => {
-        console.log(`making sure destination directory is empty...`);
+        logger.info(`making sure destination directory is empty...`);
         if (!isEmptyDir(dir)) {
             throw 'Please run `eoshuffle init` from an empty directory.';
         }
-        console.log(`directory ${dir} is empty`);
+        logger.info(`directory ${dir} is empty`);
     }
 
     const templateExists = templateUrl => {
-        console.log('checking that template exists...');
+        logger.info('checking that template exists...');
 
         const options = {
             method: 'HEAD',
@@ -40,7 +39,7 @@ module.exports = async function (opts = {}) {
                 } else if (response.statusCode == !200) {
                     return reject(`Error connecting to github.  Please check your internet connection.`);
                 }
-                console.log(`template does exist.`);
+                logger.debug(`template does exist.`);
                 resolve(true);
             })
         })
@@ -48,17 +47,17 @@ module.exports = async function (opts = {}) {
     }
 
     const setupTempDir = () => {
-        console.log('setting up temporary directory...');
+        logger.info('setting up temporary directory...');
         const tmpDirObject = tmp.dirSync({
             dir: cwd,
             unsafeCleanup: true
         })
-        console.log('set up temporary directory:', tmpDirObject.name);
+        logger.info('set up temporary directory:', tmpDirObject.name);
         return tmpDirObject;
     }
 
     const downloadTemplate = (url, tempDirectory) => {
-        console.log('downloading template...');
+        logger.info('downloading template...');
         return new Promise((resolve, reject) => {
             ghdownload(url, tempDirectory)
                 .on('error', err => {
@@ -71,14 +70,12 @@ module.exports = async function (opts = {}) {
     }
 
     const copyTempDirToDestination = async (tempDir, destination) => {
-        console.log('copying template to destination folder...');
+        logger.info('copying template to destination folder...');
         await fs.copy(tempDir, destination);
-        console.log(`copied ${tempDir} to ${destination}`)
+        logger.info(`copied ${tempDir} to ${destination}`)
     }
 
     this.create = async (template, destination) => {
-        // console.log('creator.create received template:', template);
-        // console.log('creator.create received dir:', destination);
 
         const templateUrl = `https://github.com/billbitt/eoshuffle-init-${template}`;
 
@@ -90,7 +87,7 @@ module.exports = async function (opts = {}) {
             await copyTempDirToDestination(tempDirObject.name, destination);
             tempDirObject.removeCallback();
         } catch (e) {
-            console.log ('Error occured while creating project:', e);
+            logger.error ('Error occured while creating project:', e);
         }
     }
 
