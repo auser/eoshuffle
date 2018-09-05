@@ -44,3 +44,7 @@ _(coming soon)_
 ### Deploy
 
 _(coming soon)_
+
+## Inspiration
+
+This project is heavily influenced by the [truffle](https://github.com/trufflesuite/truffle) project and aims to bring many of the same amazing tools to the [eos](https://eos.io/) development eocosystem
