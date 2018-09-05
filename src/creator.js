@@ -1,26 +1,40 @@
-// const lib = require('./lib');
+const fs = require('fs');
+// const lib = require ('./lib');
 
 module.exports = async function (opts = {}) {
     // const { logger } = await lib (opts);
 
-    this.createDirectory = '';
-    this.template = 'default';
+    function isEmptyDir (dir) { // note: move to fileHelper lib
+        const files = fs.readdirSync(dir);
+        const filesInDirectory = files.length;
+        console.log('files in directory', filesInDirectory)
+        return filesInDirectory < 0;
+    }
 
-    this.checkForEmptyCreateDirectory = async dir => {
+    function templateExists (template) {
+
+    }
+
+    const checkForEmptyCreateDirectory = async dir => {
         // check the create directory to make sure the folder is empty
-
-        // throw an error if folder is not empty
-
+        if (!isEmptyDir(dir)) {
+            // throw an error if folder is not empty
+            throw 'Please run `eoshuffle init` from an empty directory.';
+        }
+        console.log(`[x] directory ${dir} is empty`);
     }
 
-    this.checkTemplateExists = async template => {
+    const checkTemplateExists = async template => {
         // check to make sure the requrested template exists
-
+        if (!folderExists(template, './templates')) {
+            throw new Error('The requested template does not exist.');
+        }
         // throw an error if template does not exist
+        console.log(`[x] template ${template} does exist in /eoshuffle/templates`);
 
     }
 
-    this.createProject = async => {
+    const createProject = async => {
         // copy the requested template to the createDirectory
 
     }
@@ -31,10 +45,11 @@ module.exports = async function (opts = {}) {
         console.log('creator.create received dir:', dir);
 
         try {
-            this.checkForEmptyCreateDirectory(dir)
-            this.checkTemplateExists(template)
+            await checkForEmptyCreateDirectory(dir)
+            await checkTemplateExists(template)
+            await createProject(dir, template)
         } catch (e) {
-            console.log ('Error occured while creating project', e);
+            console.log ('Error occured while creating project:', e);
         }
     }
 

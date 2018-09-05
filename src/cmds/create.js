@@ -17,7 +17,7 @@ module.exports = {
       default: 'default'
     },
     dir: {
-      default: '.',
+      default: process.cwd(),
     },
   },
   //handler: argv => {
