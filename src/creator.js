@@ -11,8 +11,20 @@ module.exports = async function (opts = {}) {
         return filesInDirectory < 0;
     }
 
-    function templateExists (template) {
+    function templateExists(template) {
+        return true;
+    }
 
+    const downloadTemplate = async () => {
+        console.log('downloading template...');
+    }
+
+    const unpackTemplate = async () => {
+        console.log('unpacking template...');
+    }
+
+    const configureTemplate = async () => {
+        console.log('configureing template...');
     }
 
     const checkForEmptyCreateDirectory = async dir => {
@@ -26,17 +38,19 @@ module.exports = async function (opts = {}) {
 
     const checkTemplateExists = async template => {
         // check to make sure the requrested template exists
-        if (!folderExists(template, './templates')) {
-            throw new Error('The requested template does not exist.');
+        if (!templateExists(template)) {
+            throw 'The requested template does not exist.';
         }
         // throw an error if template does not exist
-        console.log(`[x] template ${template} does exist in /eoshuffle/templates`);
+        console.log(`[x] template ${template} does exist.`);
 
     }
 
-    const createProject = async => {
+    const createProject = async () => {
         // copy the requested template to the createDirectory
-
+        await downloadTemplate();
+        await unpackTemplate ();
+        await configureTemplate ();
     }
 
     this.create = async (template, dir) => {
@@ -45,7 +59,7 @@ module.exports = async function (opts = {}) {
         console.log('creator.create received dir:', dir);
 
         try {
-            await checkForEmptyCreateDirectory(dir)
+            // await checkForEmptyCreateDirectory(dir)
             await checkTemplateExists(template)
             await createProject(dir, template)
         } catch (e) {
