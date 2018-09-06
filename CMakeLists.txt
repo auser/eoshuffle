@@ -9,14 +9,13 @@ set(NODE_MOD_DIR "${ROOT_DIR}/node_modules")
 # Boost dependency
 
 # Include BoostLib module
-file(GLOB_RECURSE boostlib_cmake_path "${NODE_MOD_DIR}/node_modules" "BoostLib.cmake")
+file(GLOB_RECURSE boostlib_cmake_path "${NODE_MOD_DIR}" "BoostLib.cmake")
 list(GET boostlib_cmake_path 0 boostlib_cmake_path)
 get_filename_component(boostlib_cmake_path "${boostlib_cmake_path}" DIRECTORY)
 SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${boostlib_cmake_path}")
 include(BoostLib)
 
-message("boot dir: ${boostlib_cmake_path}")
-FIND_PACKAGE(Boost 1.58 REQUIRED COMPONENTS
+FIND_PACKAGE(Boost 1.67 REQUIRED COMPONENTS
     thread
     date_time
     filesystem
