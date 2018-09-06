@@ -33,7 +33,7 @@ const cloneEosIfNecessary = async destDir => {
   }
 };
 
-const exec = async (cmd, destDir, options = {}) => {
+const exec = async (cmd, destDir = process.cwd (), options = {}) => {
   const shellOpts = Object.assign (
     {},
     {
@@ -77,10 +77,10 @@ const buildEos = async (destDir, argv) => {
   //   'include'
   // );
 
-  const cmd = `cmake -DOPENSSL_ROOT_DIR="${opensslRoot}" --DCMAKE_C_COMPILER=clang --DCMAKE_CXX_COMPILER=clang++ --std c++14 ${ROOT_DIR}`;
-  await exec (cmd, destDir);
+  const cmd = `cmake -DOPENSSL_ROOT_DIR="${opensslRoot}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -std=c++14 ${process.cwd ()}`;
+  await exec (cmd);
 
-  await exec (`make`, destDir);
+  await exec (`make`);
 };
 
 const installEos = async destDir => {
@@ -92,12 +92,18 @@ const installEos = async destDir => {
 const handleSetup = async argv => {
   //const rootDir = argv.eosInstallDirectory;
   //const destDir = path.join (rootDir, 'eosio');
-  tmp.dir (async (err, path, cleanupCallback) => {
+  tmp.dir (async (err, currPath, cleanupCallback) => {
     if (err) throw err;
-    process.chdir (path);
+    process.chdir (currPath);
 
-    logger.debug (`Working in directory: ${path}`);
+    logger.debug (`Working in directory: ${currPath}`);
     const destDir = argv.eosInstallDirectory;
+
+    // Setup tmp
+    const cmakeFile = path.join (ROOT_DIR, 'CMakeLists.txt');
+    shelljs.cp ('-R', path.join (NODE_MOD_DIR, 'boost-lib'), currPath);
+    shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party'), currPath);
+    shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
     // console.log ('argv ->', destDir);
     await cloneEosIfNecessary (destDir);
     await updateSubmodules (destDir);
