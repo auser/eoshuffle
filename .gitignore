@@ -2,4 +2,6 @@ node_modules
 build/
 src/third_party/CMakeFiles/
 .idea/
-.vs/
+.vs/CMakeFiles/
+CMakeCache.txt
+CMakeFiles

@@ -1,0 +1,12 @@
+cmake_minimum_required( VERSION 3.5 )
+
+project( EOSSHUFFLE )
+
+set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(NODE_MOD_DIR "${ROOT_DIR}/node_modules")
+
+set(OPENSSL_ROOT_DIR "${NODE_MOD_DIR}/nodegit/vendor/openssl/openssl")
+set(Secp256k1_LIBRARY "${NODE_MOD_DIR}/secp256k1/build/Release")
+set(Secp256k1_INCLUDE_DIR "${NODE_MOD_DIR}/secp256k1/src/secp256k1-src/include")
+
+add_subdirectory("$ENV{HOME}/.eosio" "$ENV{HOME}/.eosio/build")

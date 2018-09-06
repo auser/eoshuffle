@@ -5,6 +5,9 @@ const Promise = require ('bluebird');
 const shelljs = require ('shelljs');
 const logger = require ('../lib/logger');
 
+ROOT_DIR = path.join (__dirname, '..', '..');
+NODE_MOD_DIR = path.join (ROOT_DIR, 'node_modules');
+
 const doesDirectoryExist = async dir =>
   new Promise (resolve => {
     fs.exists (dir, b => {
@@ -57,8 +60,26 @@ const buildEos = async (destDir, argv) => {
   logger.info (
     `Building eos... This could take a while, so go grab a cup of coffee ☕️`
   );
-  const cmd = `eosio_build.sh`;
+  opensslRoot = path.join (
+    NODE_MOD_DIR,
+    'nodegit',
+    'vendor',
+    'openssl',
+    'openssl'
+  );
+  // secp256k1Lib = path.join (NODE_MOD_DIR, 'secp256k1', 'build', 'Release');
+  // secp256k1Include = path.join (
+  //   NODE_MOD_DIR,
+  //   'secp256k1',
+  //   'src',
+  //   'secp256k1-src',
+  //   'include'
+  // );
+
+  const cmd = `cmake ${ROOT_DIR} -DOPENSSL_ROOT_DIR="${opensslRoot}"`;
   await exec (cmd, destDir);
+
+  await exec (`make`, destDir);
 };
 
 const installEos = async destDir => {
