@@ -77,7 +77,9 @@ const buildEos = async (destDir, argv) => {
   //   'include'
   // );
 
-  const cmd = `cmake ${ROOT_DIR} -DOPENSSL_ROOT_DIR="${opensslRoot}"`;
+  const cmakeJs = path.join (NODE_MOD_DIR, '.bin', 'cmake-js');
+
+  const cmd = `${cmakeJs} --CDOPENSSL_ROOT_DIR="${opensslRoot}" --CDCMAKE_C_COMPILER=clang --CDCMAKE_CXX_COMPILER=clang++ --std c++14`;
   await exec (cmd, destDir);
 
   await exec (`make`, destDir);
