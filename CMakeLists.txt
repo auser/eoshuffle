@@ -15,10 +15,22 @@ get_filename_component(boostlib_cmake_path "${boostlib_cmake_path}" DIRECTORY)
 SET(CMAKE_MODULE_PATH "${boostlib_cmake_path};${CMAKE_MODULE_PATH}")
 include(BoostLib)
 
-FIND_PACKAGE(Boost 1.67)
+FIND_PACKAGE(Boost 1.58 REQUIRED COMPONENTS
+    thread
+    date_time
+    filesystem
+    system
+    program_options
+    signals
+    serialization
+    chrono
+    unit_test_framework
+    context
+    locale
+    iostreams)
 
 if(Boost_FOUND)
-    require_boost_libs(">= 1.67.0" "coroutine")
+    require_boost_libs(">= 1.58.0" "coroutine")
     include_directories(${boost_INCLUDE_DIRS})
 endif()
 
