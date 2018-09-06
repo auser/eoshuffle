@@ -15,6 +15,7 @@ get_filename_component(boostlib_cmake_path "${boostlib_cmake_path}" DIRECTORY)
 SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${boostlib_cmake_path}")
 include(BoostLib)
 
+message("boot dir: ${boostlib_cmake_path}")
 FIND_PACKAGE(Boost 1.58 REQUIRED COMPONENTS
     thread
     date_time
