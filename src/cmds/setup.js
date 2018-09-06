@@ -1,5 +1,6 @@
 const path = require ('path');
 const fs = require ('fs');
+const tmp = require ('tmp');
 const Git = require ('nodegit');
 const Promise = require ('bluebird');
 const shelljs = require ('shelljs');
@@ -91,14 +92,23 @@ const installEos = async destDir => {
 const handleSetup = async argv => {
   //const rootDir = argv.eosInstallDirectory;
   //const destDir = path.join (rootDir, 'eosio');
-  const destDir = argv.eosInstallDirectory;
-  // console.log ('argv ->', destDir);
-  await cloneEosIfNecessary (destDir);
-  await updateSubmodules (destDir);
-  await buildEos (destDir, argv);
-  if (argv.install) {
-    await installEos (destDir);
-  }
+  tmp.dir (async (err, path, cleanupCallback) => {
+    if (err) throw err;
+    process.chdir (path);
+
+    logger.debug (`Working in directory: ${path}`);
+    const destDir = argv.eosInstallDirectory;
+    // console.log ('argv ->', destDir);
+    await cloneEosIfNecessary (destDir);
+    await updateSubmodules (destDir);
+    await buildEos (destDir, argv);
+    if (argv.install) {
+      await installEos (destDir);
+    }
+
+    // Manual cleanup
+    cleanupCallback ();
+  });
 };
 
 module.exports = {

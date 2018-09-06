@@ -5,3 +5,10 @@ src/third_party/CMakeFiles/
 .vs/CMakeFiles/
 CMakeCache.txt
 CMakeFiles
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Makefile
+cmake_install.cmake
+compile_commands.json
+eos.doxygen
+lib/
