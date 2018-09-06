@@ -57,7 +57,7 @@ const buildEos = async (destDir, argv) => {
   logger.info (
     `Building eos... This could take a while, so go grab a cup of coffee ☕️`
   );
-  const cmd = `./eosio_build.sh`;
+  const cmd = `eosio_build.sh`;
   await exec (cmd, destDir);
 };
 
@@ -68,8 +68,9 @@ const installEos = async destDir => {
 };
 
 const handleSetup = async argv => {
-  const rootDir = argv.eosInstallDirectory;
-  const destDir = path.join (rootDir, 'eosio');
+  //const rootDir = argv.eosInstallDirectory;
+  //const destDir = path.join (rootDir, 'eosio');
+  const destDir = argv.eosInstallDirectory;
   // console.log ('argv ->', destDir);
   await cloneEosIfNecessary (destDir);
   await updateSubmodules (destDir);
