@@ -30,7 +30,7 @@ include(BoostLib)
 #     iostreams)
 
 # if(Boost_FOUND)
-    require_boost_libs(">= 1.58.0" thread;coroutine;date_time;filesystem;system;program_options;signals;serialization;chrono;unit_test_framework;context;locale;iostreams)
+    require_boost_libs(">= 1.58.0" thread)
     include_directories(${boost_INCLUDE_DIRS})
 # endif()
 
