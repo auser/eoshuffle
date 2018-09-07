@@ -87,9 +87,12 @@ const buildEos = async (destDir, argv) => {
 
 const buildsecp256k1 = async destDir => {
   const workingDir = path.join (THIRD_PARTY, 'secp256k1', 'secp256k1-build');
-  const stats = fs.lstatSync (path.join (workingDir, 'lib', 'libsecp256k1.a'));
+  let stats;
+  try {
+    stats = fs.lstatSync (path.join (workingDir, 'lib', 'libsecp256k1.a'));
+  } catch (e) {}
 
-  if (!stats.isFile ()) {
+  if (!stats || !stats.isFile ()) {
     logger.info (`Building secp256k1`);
     const cmds = [
       `${workingDir}/autogen.sh`,
