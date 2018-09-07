@@ -83,6 +83,20 @@ const buildEos = async (destDir, argv) => {
   await exec (`make`);
 };
 
+const buildsecp256k1 = async destDir => {
+  logger.info (`Building secp256k1`);
+  const cmds = [`./autogen.sh`, `./configure`, `make`, `make install`];
+  const workingDir = path.join (
+    process.cwd (),
+    'third_party',
+    'secp256k1',
+    'secp256k1-build'
+  );
+  await Promise.each (cmds, async cmd => {
+    await exec (cmd, workingDir);
+  });
+};
+
 const installEos = async destDir => {
   logger.info (`Installing EOS`);
   const cmd = `make install`;
@@ -100,11 +114,15 @@ const handleSetup = async argv => {
     const destDir = argv.eosInstallDirectory;
 
     // Setup tmp
+    logger.info (`Setting up the stage...`);
     const cmakeFile = path.join (ROOT_DIR, 'CMakeLists.txt');
     shelljs.cp ('-R', path.join (NODE_MOD_DIR, 'boost-lib'), currPath);
-    shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party'), currPath);
+    shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party/'), currPath);
     shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
-    // console.log ('argv ->', destDir);
+
+    await buildsecp256k1 (destDir);
+
+    // Do the thing
     await cloneEosIfNecessary (destDir);
     await updateSubmodules (destDir);
     await buildEos (destDir, argv);
