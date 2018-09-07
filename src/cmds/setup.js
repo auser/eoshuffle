@@ -77,7 +77,7 @@ const buildEos = async (destDir, argv) => {
   //   'include'
   // );
 
-  const cmd = `cmake -DCMAKE_BUILD_TYPE=Debug -DOPENSSL_ROOT_DIR="${opensslRoot}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -std=c++14 ${process.cwd ()}`;
+  const cmd = `cmake -DCMAKE_BUILD_TYPE=Debug -DOPENSSL_ROOT_DIR="${opensslRoot}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -std=c++14 ..`;
   await exec (cmd);
 
   await exec (`make`);
@@ -125,6 +125,9 @@ const handleSetup = async argv => {
   // shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
 
   // await buildsecp256k1 (destDir);
+  const buildDir = path.join (ROOT_DIR, 'build');
+  shelljs.mkdir ('-p', buildDir);
+  process.chdir (buildDir);
 
   // Do the thing
   await cloneEosIfNecessary (destDir);
