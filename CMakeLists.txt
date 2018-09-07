@@ -9,30 +9,30 @@ set(NODE_MOD_DIR "${ROOT_DIR}/node_modules")
 # Boost dependency
 
 # Include BoostLib module
-file(GLOB_RECURSE boostlib_cmake_path "${CMAKE_CURRENT_SOURCE_DIR}/node_modules" "BoostLib.cmake")
+file(GLOB_RECURSE boostlib_cmake_path "${NODE_MOD_DIR}/node_modules/boost-lib/cmake" "BoostLib.cmake")
 list(GET boostlib_cmake_path 0 boostlib_cmake_path)
 get_filename_component(boostlib_cmake_path "${boostlib_cmake_path}" DIRECTORY)
 SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${boostlib_cmake_path}")
 include(BoostLib)
 
-FIND_PACKAGE(Boost 1.67 REQUIRED COMPONENTS
-    thread
-    date_time
-    filesystem
-    system
-    program_options
-    signals
-    serialization
-    chrono
-    unit_test_framework
-    context
-    locale
-    iostreams)
+# FIND_PACKAGE(Boost 1.67 REQUIRED COMPONENTS
+#     thread
+#     date_time
+#     filesystem
+#     system
+#     program_options
+#     signals
+#     serialization
+#     chrono
+#     unit_test_framework
+#     context
+#     locale
+#     iostreams)
 
-if(Boost_FOUND)
-    require_boost_libs(">= 1.58.0" "coroutine")
+# if(Boost_FOUND)
+    require_boost_libs(">= 1.58.0" thread;coroutine;date_time;filesystem;system;program_options;signals;serialization;chrono;unit_test_framework;context;locale;iostreams)
     include_directories(${boost_INCLUDE_DIRS})
-endif()
+# endif()
 
 set(OPENSSL_ROOT_DIR "${NODE_MOD_DIR}/nodegit/vendor/openssl/openssl")
 set(Secp256k1_LIBRARY "${THIRD_PARTY_DIR}/secp256k1/build/Release")
