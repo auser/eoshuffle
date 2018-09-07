@@ -15,24 +15,27 @@ get_filename_component(boostlib_cmake_path "${boostlib_cmake_path}" DIRECTORY)
 SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${boostlib_cmake_path}")
 include(BoostLib)
 
-FIND_PACKAGE(Boost 1.67 REQUIRED COMPONENTS
-    thread
-    date_time
-    filesystem
-    system
-    program_options
-    signals
-    serialization
-    chrono
-    unit_test_framework
-    context
-    locale
-    iostreams)
+# FIND_PACKAGE(Boost 1.57 REQUIRED COMPONENTS
+# thread
+# date_time
+#     filesystem
+#     system
+#     program_options
+#     signals
+#     serialization
+#     chrono
+#     unit_test_framework
+#     context
+#     locale
+#     iostreams)
 
-# if(Boost_FOUND)
-    require_boost_libs(">= 1.58.0" "")
+    # if(Boost_FOUND)
+    require_boost_libs(1.66.0 "")
+
+    # require_boost_libs(1.57.0 thread;context;coroutine;date_time)
     include_directories(${boost_INCLUDE_DIRS})
 # endif()
+
 
 set(OPENSSL_ROOT_DIR "${NODE_MOD_DIR}/nodegit/vendor/openssl/openssl")
 set(Secp256k1_LIBRARY "${THIRD_PARTY_DIR}/secp256k1/build/Release")
