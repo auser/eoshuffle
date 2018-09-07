@@ -85,13 +85,18 @@ const buildEos = async (destDir, argv) => {
 
 const buildsecp256k1 = async destDir => {
   logger.info (`Building secp256k1`);
-  const cmds = [`./autogen.sh`, `./configure`, `make`, `make install`];
   const workingDir = path.join (
     process.cwd (),
     'third_party',
     'secp256k1',
     'secp256k1-build'
   );
+  const cmds = [
+    `${workingDir}/autogen.sh`,
+    `${workingDir}/configure`,
+    `make`,
+    `make install`,
+  ];
   await Promise.each (cmds, async cmd => {
     await exec (cmd, workingDir);
   });
