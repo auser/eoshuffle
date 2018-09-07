@@ -77,7 +77,7 @@ const buildEos = async (destDir, argv) => {
   //   'include'
   // );
 
-  const cmd = `cmake -DOPENSSL_ROOT_DIR="${opensslRoot}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -std=c++14 ${process.cwd ()}`;
+  const cmd = `cmake -DCMAKE_BUILD_TYPE=Debug -DOPENSSL_ROOT_DIR="${opensslRoot}" -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -std=c++14 ${process.cwd ()}`;
   await exec (cmd);
 
   await exec (`make`);
@@ -111,33 +111,32 @@ const installEos = async destDir => {
 const handleSetup = async argv => {
   //const rootDir = argv.eosInstallDirectory;
   //const destDir = path.join (rootDir, 'eosio');
-  tmp.dir (async (err, currPath, cleanupCallback) => {
-    if (err) throw err;
-    process.chdir (currPath);
+  // tmp.dir (async (err, currPath, cleanupCallback) => {
+  // if (err) throw err;
+  // process.chdir (currPath);
 
-    logger.debug (`Working in directory: ${currPath}`);
-    const destDir = argv.eosInstallDirectory;
+  const destDir = argv.eosInstallDirectory;
 
-    // Setup tmp
-    logger.info (`Setting up the stage...`);
-    const cmakeFile = path.join (ROOT_DIR, 'CMakeLists.txt');
-    shelljs.cp ('-R', path.join (NODE_MOD_DIR, 'boost-lib'), currPath);
-    shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party/'), currPath);
-    shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
+  // Setup tmp
+  // logger.info (`Setting up the stage...`);
+  // const cmakeFile = path.join (ROOT_DIR, 'CMakeLists.txt');
+  // shelljs.cp ('-R', path.join (NODE_MOD_DIR, 'boost-lib'), currPath);
+  // shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party/'), currPath);
+  // shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
 
-    await buildsecp256k1 (destDir);
+  // await buildsecp256k1 (destDir);
 
-    // Do the thing
-    await cloneEosIfNecessary (destDir);
-    await updateSubmodules (destDir);
-    await buildEos (destDir, argv);
-    if (argv.install) {
-      await installEos (destDir);
-    }
+  // Do the thing
+  await cloneEosIfNecessary (destDir);
+  await updateSubmodules (destDir);
+  await buildEos (destDir, argv);
+  if (argv.install) {
+    await installEos (destDir);
+  }
 
-    // Manual cleanup
-    cleanupCallback ();
-  });
+  // Manual cleanup
+  // cleanupCallback ();
+  // });
 };
 
 module.exports = {
