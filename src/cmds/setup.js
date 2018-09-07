@@ -86,11 +86,7 @@ const buildEos = async (destDir, argv) => {
 };
 
 const buildsecp256k1 = async destDir => {
-  const workingDir = path.join (
-    THIRD_PARTY,
-    'secp256k1-zkp',
-    'secp256k1-build'
-  );
+  const workingDir = path.join (THIRD_PARTY, 'secp256k1-zkp');
   let stats;
   try {
     stats = fs.lstatSync (path.join (workingDir, 'lib', 'libsecp256k1.a'));
