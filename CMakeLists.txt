@@ -3,7 +3,7 @@ cmake_minimum_required( VERSION 3.5 )
 project( EOSSHUFFLE )
 
 set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-set(THIRD_PARTY_DIR "${ROOT_DIR}/src/third_party")
+set(THIRD_PARTY_DIR "${ROOT_DIR}/src/third_party/")
 set(NODE_MOD_DIR "${ROOT_DIR}/node_modules")
 
 # Boost dependency
@@ -38,7 +38,7 @@ include(BoostLib)
 
 
 set(OPENSSL_ROOT_DIR "${NODE_MOD_DIR}/nodegit/vendor/openssl/openssl")
-set(Secp256k1_LIBRARY "${NODE_MOD_DIR}/secp256k1/build/Release/secp256k1.node")
-set(Secp256k1_INCLUDE_DIR "${NODE_MOD_DIR}/secp256k1/src/secp256k1-src/include")
+set(Secp256k1_LIBRARY "${THIRD_PARTY_DIR}secp256k1/secp256k1-build/lib/libsecp256k1.a")
+set(Secp256k1_INCLUDE_DIR "${THIRD_PARTY_DIR}secp256k1/secp256k1-build/include")
 
 add_subdirectory("$ENV{HOME}/.eosio" "$ENV{HOME}/.eosio/build")

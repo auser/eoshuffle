@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "git submodule update --init --recursive",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ari Lerner <me@ari.io> (http://willcodeforfoo.com)",
@@ -18,7 +19,6 @@
     "glob": "^7.1.2",
     "hoek": "~> 4.2.1",
     "nodegit": "^0.22.2",
-    "secp256k1": "^3.5.2",
     "shelljs": "^0.8.2",
     "tmp": "0.0.33",
     "validate": "^4.4.1",

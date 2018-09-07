@@ -86,12 +86,24 @@ const buildEos = async (destDir, argv) => {
 };
 
 const buildsecp256k1 = async destDir => {
-  logger.info (`Building secp256k1`);
-  const workingDir = path.join (THIRD_PARTY, 'secp256k1');
-  const cmds = [`${workingDir}/configure .. src`, `make`, `make install`];
-  return Promise.each (cmds, async cmd => {
-    await exec (cmd, workingDir);
-  });
+  const workingDir = path.join (THIRD_PARTY, 'secp256k1', 'secp256k1-build');
+  const stats = fs.lstatSync (path.join (workingDir, 'lib', 'libsecp256k1.a'));
+
+  if (!stats.isFile ()) {
+    logger.info (`Building secp256k1`);
+    const cmds = [
+      `${workingDir}/autogen.sh`,
+      `${workingDir}/configure --prefix=${workingDir}`,
+      `make`,
+      `make install`,
+    ];
+    return Promise.each (cmds, async cmd => {
+      await exec (cmd, workingDir);
+    });
+  } else {
+    logger.info (`Secp256k1 is already built`);
+    return Promise.resolve (stats);
+  }
 };
 
 const installEos = async destDir => {
@@ -116,13 +128,12 @@ const handleSetup = async argv => {
   // shelljs.cp ('-R', path.join (ROOT_DIR, 'src', 'third_party/'), currPath);
   // shelljs.cp (cmakeFile, path.join (currPath, 'CMakeLists.txt'));
 
-  // await buildsecp256k1 (destDir);
   const buildDir = path.join (ROOT_DIR, 'build');
   shelljs.mkdir ('-p', buildDir);
   process.chdir (buildDir);
 
   // Do the thing
-  // await buildsecp256k1 (destDir);
+  await buildsecp256k1 (destDir);
   await cloneEosIfNecessary (destDir);
   await updateSubmodules (destDir);
   await buildEos (destDir, argv);
