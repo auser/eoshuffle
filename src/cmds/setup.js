@@ -6,8 +6,10 @@ const Promise = require ('bluebird');
 const shelljs = require ('shelljs');
 const logger = require ('../lib/logger');
 
-ROOT_DIR = path.join (__dirname, '..', '..');
-NODE_MOD_DIR = path.join (ROOT_DIR, 'node_modules');
+const ROOT_DIR = path.join (__dirname, '..', '..');
+const NODE_MOD_DIR = path.join (ROOT_DIR, 'node_modules');
+const SRC_DIR = path.join (ROOT_DIR, 'src');
+const THIRD_PARTY = path.join (SRC_DIR, 'third_party');
 
 const doesDirectoryExist = async dir =>
   new Promise (resolve => {
@@ -85,19 +87,9 @@ const buildEos = async (destDir, argv) => {
 
 const buildsecp256k1 = async destDir => {
   logger.info (`Building secp256k1`);
-  const workingDir = path.join (
-    process.cwd (),
-    'third_party',
-    'secp256k1',
-    'secp256k1-build'
-  );
-  const cmds = [
-    `${workingDir}/autogen.sh`,
-    `${workingDir}/configure`,
-    `make`,
-    `make install`,
-  ];
-  await Promise.each (cmds, async cmd => {
+  const workingDir = path.join (THIRD_PARTY, 'secp256k1');
+  const cmds = [`${workingDir}/configure .. src`, `make`, `make install`];
+  return Promise.each (cmds, async cmd => {
     await exec (cmd, workingDir);
   });
 };
@@ -130,6 +122,7 @@ const handleSetup = async argv => {
   process.chdir (buildDir);
 
   // Do the thing
+  await buildsecp256k1 (destDir);
   await cloneEosIfNecessary (destDir);
   await updateSubmodules (destDir);
   await buildEos (destDir, argv);

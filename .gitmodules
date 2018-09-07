@@ -1,3 +1,0 @@
-[submodule "src/third_party/secp256k1"]
-	path = src/third_party/secp256k1
-	url = https://github.com/EOSIO/eosjs-secp256k1.git

@@ -38,7 +38,7 @@ include(BoostLib)
 
 
 set(OPENSSL_ROOT_DIR "${NODE_MOD_DIR}/nodegit/vendor/openssl/openssl")
-set(Secp256k1_LIBRARY "${THIRD_PARTY_DIR}/secp256k1/build/Release")
+set(Secp256k1_LIBRARY "${NODE_MOD_DIR}/secp256k1/build/Release")
 set(Secp256k1_INCLUDE_DIR "${NODE_MOD_DIR}/secp256k1/src/secp256k1-src/include")
 
 add_subdirectory("$ENV{HOME}/.eosio" "$ENV{HOME}/.eosio/build")
