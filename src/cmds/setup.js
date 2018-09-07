@@ -122,7 +122,7 @@ const handleSetup = async argv => {
   process.chdir (buildDir);
 
   // Do the thing
-  await buildsecp256k1 (destDir);
+  // await buildsecp256k1 (destDir);
   await cloneEosIfNecessary (destDir);
   await updateSubmodules (destDir);
   await buildEos (destDir, argv);
